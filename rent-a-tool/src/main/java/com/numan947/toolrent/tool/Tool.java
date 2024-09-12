@@ -38,4 +38,12 @@ public class Tool extends BaseEntity {
 
     @OneToMany(mappedBy = "tool")
     List<ToolTransactionHistory>histories;
+
+    @Transient // this field is not stored in the database but calculated on the fly
+    public double getAverageRating(){
+        return reviews.stream()
+                .mapToDouble(ToolReview::getRating)
+                .average()
+                .orElse(0);
+    }
 }

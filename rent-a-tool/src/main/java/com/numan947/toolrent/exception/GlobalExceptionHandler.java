@@ -90,6 +90,20 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(OperationNotPermittedException.class)
+    public ResponseEntity<ExceptionResponseDTO>handle(OperationNotPermittedException exp)
+    {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                new ExceptionResponseDTO(
+                        BusinessErrorCodes.OPERATION_NOT_PERMITTED.getCode(),
+                        BusinessErrorCodes.OPERATION_NOT_PERMITTED.getDescription(),
+                        exp.getMsg(),
+                        null,
+                        null
+                )
+        );
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponseDTO>handle(Exception exp)
     {

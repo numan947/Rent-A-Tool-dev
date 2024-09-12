@@ -12,7 +12,8 @@ public enum BusinessErrorCodes {
     BAD_CREDENTIALS(300, "Incorrect credentials: Login email/password is incorrect", BAD_REQUEST),
     NEW_PASSWORD_DOES_NOT_MATCH(301, "New password does not match", BAD_REQUEST),
     ACCOUNT_LOCKED(302, "Account is locked", LOCKED),
-    ACCOUNT_DISABLED(303, "Account is disabled", FORBIDDEN)
+    ACCOUNT_DISABLED(303, "Account is disabled", FORBIDDEN),
+    OPERATION_NOT_PERMITTED(401, "Operation not permitted", FORBIDDEN),
     ;
 
     private final int code;
