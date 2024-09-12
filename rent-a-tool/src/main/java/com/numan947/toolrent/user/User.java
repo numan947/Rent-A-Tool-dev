@@ -1,6 +1,8 @@
 package com.numan947.toolrent.user;
 
+import com.numan947.toolrent.history.ToolTransactionHistory;
 import com.numan947.toolrent.role.Role;
+import com.numan947.toolrent.tool.Tool;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -52,6 +54,11 @@ public class User implements UserDetails, Principal {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
+    @OneToMany(mappedBy = "owner")
+    private List<Tool>tools;
+
+    @OneToMany(mappedBy = "user")
+    private List<ToolTransactionHistory>histories;
 
     @Override
     public String getName() {
@@ -62,7 +69,7 @@ public class User implements UserDetails, Principal {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream().map(
                 role-> new SimpleGrantedAuthority(role.getName())
-        ).collect(Collectors.toList());
+        ).toList(); // Question: is collect(Collectors.toList()) better than toList()?
     }
 
     @Override
@@ -95,7 +102,7 @@ public class User implements UserDetails, Principal {
         return enabled;
     }
 
-    private String getFullName() {
+    public String getFullName() {
         return firstname + " " + lastname;
     }
 }
