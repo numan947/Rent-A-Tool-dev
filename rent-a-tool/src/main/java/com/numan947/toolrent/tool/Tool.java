@@ -2,7 +2,7 @@ package com.numan947.toolrent.tool;
 
 import com.numan947.toolrent.common.BaseEntity;
 import com.numan947.toolrent.history.ToolTransactionHistory;
-import com.numan947.toolrent.note.ToolReview;
+import com.numan947.toolrent.Review.ToolReview;
 import com.numan947.toolrent.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

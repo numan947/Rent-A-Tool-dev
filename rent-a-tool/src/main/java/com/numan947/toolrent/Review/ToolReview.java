@@ -1,4 +1,4 @@
-package com.numan947.toolrent.note;
+package com.numan947.toolrent.Review;
 
 import com.numan947.toolrent.common.BaseEntity;
 import com.numan947.toolrent.tool.Tool;
