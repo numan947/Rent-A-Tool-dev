@@ -83,7 +83,7 @@ public class GlobalExceptionHandler {
                 new ExceptionResponseDTO(
                         null,
                         null,
-                        exp.getMessage(),
+                        null,
                         errors,
                         null
                 )
