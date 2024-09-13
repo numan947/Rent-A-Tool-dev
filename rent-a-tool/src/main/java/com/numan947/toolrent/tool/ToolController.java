@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
+@Tag(name = "Tool", description = "Tool API")
 @RequiredArgsConstructor
 @RequestMapping("/tools")
-@Tag(name = "Tool", description = "Tool API")
 public class ToolController {
     private final ToolService toolService;
 

@@ -49,7 +49,7 @@ public interface ToolTransactionHistoryRepository extends JpaRepository<ToolTran
             SELECT
             t
             FROM ToolTransactionHistory t
-            WHERE t.tool.createdBy = :userId
+            WHERE t.tool.createdBy = :ownerId
             AND t.tool.id = :toolId
             AND t.returned = true
             AND t.returnApproved = false
