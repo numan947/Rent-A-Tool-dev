@@ -1,5 +1,6 @@
 package com.numan947.toolrent.tool;
 
+import com.numan947.toolrent.common.FileUtils;
 import com.numan947.toolrent.history.ToolTransactionHistory;
 import com.numan947.toolrent.tool.dto.ToolTransactionDTO;
 import com.numan947.toolrent.tool.dto.ToolRequestDTO;
@@ -27,7 +28,7 @@ public class ToolMapper {
                 tool.getManufacturer(),
                 tool.isShareable(),
                 tool.isArchived(),
-                null, // TODO: implement photo support
+                FileUtils.readFileFromPath(tool.getPhoto()),
                 tool.getAverageRating(),
                 tool.getOwner().getFullName()
         );

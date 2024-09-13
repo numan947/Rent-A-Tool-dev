@@ -43,4 +43,16 @@ public interface ToolTransactionHistoryRepository extends JpaRepository<ToolTran
             AND t.returnApproved = false
             """)
     Optional<ToolTransactionHistory> findByToolIdAndUserId(Long toolId, Long userId);
+
+
+    @Query("""
+            SELECT
+            t
+            FROM ToolTransactionHistory t
+            WHERE t.tool.createdBy = :userId
+            AND t.tool.id = :toolId
+            AND t.returned = true
+            AND t.returnApproved = false
+            """)
+    Optional<ToolTransactionHistory> findByToolIdAndOwnerId(Long toolId, Long ownerId);
 }

@@ -1,5 +1,6 @@
 package com.numan947.toolrent.tool;
 
+import com.numan947.toolrent.common.FileStorageService;
 import com.numan947.toolrent.common.dto.PageResponseDTO;
 import com.numan947.toolrent.exception.OperationNotPermittedException;
 import com.numan947.toolrent.history.ToolTransactionHistory;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +28,7 @@ public class ToolService {
     private final ToolRepository toolRepository;
     private final ToolMapper toolMapper;
     private final ToolTransactionHistoryRepository toolTransactionHistoryRepository;
+    private final FileStorageService fileStorageService;
 
 
     public Long createTool(ToolRequestDTO toolRequest, Authentication connectedUser) {
@@ -185,8 +188,21 @@ public class ToolService {
             throw new OperationNotPermittedException("You are not the owner of this tool");
         }
         ToolTransactionHistory history = toolTransactionHistoryRepository.findByToolIdAndOwnerId(toolId, user.getId()).orElseThrow(
-                () -> new OperationNotPermittedException("You have not borrowed this tool")
+                () -> new OperationNotPermittedException("No borrowed tool marked returned found with id: " + toolId)
         );
-        return null;
+        history.setReturnApproved(true);
+        return toolTransactionHistoryRepository.save(history).getId();
+    }
+
+    public void uploadPhoto(Long toolId, MultipartFile file, Authentication connectedUser) {
+        Tool tool = toolRepository.findById(toolId)
+                .orElseThrow(() -> new EntityNotFoundException("No tool found with id: " + toolId));
+        User user = (User) connectedUser.getPrincipal();
+        if (!Objects.equals(tool.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("You are not the owner of this tool");
+        }
+        var toolPhotoPath = fileStorageService.saveFile(file, tool.getId(), user.getId());
+        tool.setPhoto(toolPhotoPath);
+        toolRepository.save(tool);
     }
 }

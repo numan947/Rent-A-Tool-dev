@@ -4,6 +4,7 @@ import com.numan947.toolrent.common.dto.PageResponseDTO;
 import com.numan947.toolrent.tool.dto.ToolTransactionDTO;
 import com.numan947.toolrent.tool.dto.ToolRequestDTO;
 import com.numan947.toolrent.tool.dto.ToolResponseDTO;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -110,6 +112,19 @@ public class ToolController {
     {
         return ResponseEntity.ok(toolService.approveReturnBorrowedTool(toolId, connectedUser));
     }
+
+    @PostMapping(value = "/photo/{tool-id}", consumes = {"multipart/form-data"})
+    public ResponseEntity<?> uploadToolPhoto(
+            @PathVariable("tool-id") Long toolId,
+            @Parameter()
+            @RequestPart("file") MultipartFile file,
+            Authentication connectedUser
+    )
+    {
+        toolService.uploadPhoto(toolId, file, connectedUser);
+        return ResponseEntity.accepted().build();
+    }
+
 
 
 
