@@ -16,6 +16,10 @@ const routes: Routes = [
   {
     path: 'activate-account',
     component: ActivateAccountComponent
+  },
+  {
+    path:'tools',
+    loadChildren: () => import('./modules/tool/tool.module').then(m => m.ToolModule)
   }
 ];
 

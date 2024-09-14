@@ -1,0 +1,86 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="javascript:void(0)">Rent-A-Tool</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/tools"
+            aria-current="page"
+          >
+            <i class="fas fa-home-alt"></i>&nbsp;Home
+          </a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="my-tools"
+            aria-current="page"
+          >
+            <i class="fas fa-toolbox"></i>&nbsp;My Tools
+          </a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="my-waiting-list"
+            aria-current="page"
+          >
+            <i class="fas fa-heart"></i>&nbsp;My Waiting List
+          </a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="my-returned-tools"
+            aria-current="page"
+          >
+            <i class="fas fa-retweet"></i>&nbsp;My Returned Tools
+          </a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="my-borrowed-tools"
+            aria-current="page"
+          >
+            <i class="fas fa-angles-up"></i>&nbsp;Borrowed Tools
+          </a
+          >
+        </li>
+      </ul>
+      <form class="d-flex gap-2 align-items-center" role="search">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button class="btn btn-outline-success" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+        <span>Welcome</span>
+        <span class="fw-bold">PLACEHOLDER</span>
+        <button class="btn btn-outline-danger" type="submit" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</nav>
