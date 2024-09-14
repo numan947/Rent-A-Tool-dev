@@ -14,7 +14,13 @@ public class ApplicationAuditAware implements AuditorAware<Long>{
         if(authentication == null || !authentication.isAuthenticated()){
             return Optional.empty();
         }
-        User user = (User) authentication.getPrincipal();
-        return Optional.ofNullable(user.getId());
+
+        try{
+            User user = (User) authentication.getPrincipal();
+            return Optional.ofNullable(user.getId());
+
+        }catch (ClassCastException e){
+            return Optional.empty();
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.numan947.toolrent.auth.dto.AuthenticationResponseDTO;
 import com.numan947.toolrent.auth.dto.RegistrationRequestDTO;
 import com.numan947.toolrent.email.EmailService;
 import com.numan947.toolrent.email.EmailTemplateName;
+import com.numan947.toolrent.exception.OperationNotPermittedException;
 import com.numan947.toolrent.role.RoleRepository;
 import com.numan947.toolrent.security.JwtService;
 import com.numan947.toolrent.user.Token;
@@ -12,6 +13,7 @@ import com.numan947.toolrent.user.TokenRepository;
 import com.numan947.toolrent.user.User;
 import com.numan947.toolrent.user.UserRepository;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,6 +58,10 @@ public class AuthenticationService {
     public void register(RegistrationRequestDTO registrationRequestDTO) throws MessagingException {
         var userRole = roleRepository.findByName("USER")
                 .orElseThrow(() -> new IllegalStateException("ROLE USER was not initialized"));
+        //Check if user already exists
+        if (userRepository.findByEmail(registrationRequestDTO.email()).isPresent()) {
+            throw new OperationNotPermittedException("User already exists");
+        }
 
         var user = authMapper.toUser(registrationRequestDTO, userRole);
         userRepository.save(user);
@@ -110,13 +116,13 @@ public class AuthenticationService {
     @Transactional
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Invalid Token"));
+                .orElseThrow(() -> new EntityNotFoundException("Invalid Token"));
         if (savedToken.getExpiresAt().isBefore(LocalDateTime.now())) {
             sendValidationEmail(savedToken.getUser());
             throw new RuntimeException("Token expired, new token sent to email.");
         }
         var user = userRepository.findById(savedToken.getUser().getId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.setEnabled(true);
         userRepository.save(user);
         savedToken.setValidatedAt(LocalDateTime.now());

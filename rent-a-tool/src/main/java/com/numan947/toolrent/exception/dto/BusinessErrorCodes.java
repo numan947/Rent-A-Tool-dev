@@ -14,6 +14,7 @@ public enum BusinessErrorCodes {
     ACCOUNT_LOCKED(302, "Account is locked", LOCKED),
     ACCOUNT_DISABLED(303, "Account is disabled", FORBIDDEN),
     OPERATION_NOT_PERMITTED(401, "Operation not permitted", FORBIDDEN),
+    ENTITY_NOT_FOUND(404, "Entity not found", NOT_FOUND),
     ;
 
     private final int code;

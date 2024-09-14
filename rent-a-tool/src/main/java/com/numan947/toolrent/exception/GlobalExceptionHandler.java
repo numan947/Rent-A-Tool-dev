@@ -3,6 +3,7 @@ package com.numan947.toolrent.exception;
 import com.numan947.toolrent.exception.dto.BusinessErrorCodes;
 import com.numan947.toolrent.exception.dto.ExceptionResponseDTO;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -54,6 +55,20 @@ public class GlobalExceptionHandler {
                         BusinessErrorCodes.BAD_CREDENTIALS.getCode(),
                         BusinessErrorCodes.BAD_CREDENTIALS.getDescription(),
                         exp.getMessage(),
+                        null,
+                        null
+                )
+        );
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ExceptionResponseDTO>handle(EntityNotFoundException exp)
+    {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ExceptionResponseDTO(
+                        BusinessErrorCodes.ENTITY_NOT_FOUND.getCode(),
+                        BusinessErrorCodes.ENTITY_NOT_FOUND.getDescription(),
+                        "Entity not found",
                         null,
                         null
                 )

@@ -78,10 +78,10 @@
 
     <p>Thank you for creating an account with us! To complete your registration and activate your account, please confirm your email by clicking the button below:</p>
 
-    <a href="${confirmationUrl}" class="button" target="_blank">Confirm your account</a>
+    <a th:href="${confirmationUrl}" class="button" target="_blank">Confirm your account</a>
 
     <p>If the button above does not work, please copy and paste the following URL into your web browser:</p>
-    <p><a href="${confirmationUrl}" class="property-value">[[${confirmationUrl}]]</a></p>
+    <p><a th:href="${confirmationUrl}" class="property-value">[[${confirmationUrl}]]</a></p>
 
     <p>Your activation code is: <span class="property-value">[[${activationCode}]]</span></p>
 
