@@ -1,0 +1,53 @@
+<div class="p-2">
+  <h2>Manage Tool</h2>
+  <hr>
+  <div class="alert alert-danger mt-2" role="alert" *ngIf="errMessage.length">
+    <p class="p-0 m-0" *ngFor="let msg of errMessage">
+      {{msg}}
+    </p>
+  </div>
+
+  <div class="d-flex gap-2">
+    <div class="col-3">
+      <img class="rounded-1" width="75%" height="75%" [src]="selectedPicture || 'https://via.placeholder.com/1900x1200'" alt="...">
+      <div class="mt-2">
+        <input class="form-control" type="file" id="formFile" accept="image/jpeg" (change)="onFileSelected($event)">
+      </div>
+    </div>
+    <div class="col-9">
+      <form class="row g-3">
+        <div class="col-6">
+          <label for="toolName" class="form-label mt-1">Tool Name</label>
+          <input type="text" class="form-control" id="toolName" name="toolName" [(ngModel)]="toolRequest.name" placeholder="Tool name">
+        </div>
+        <div class="col-6">
+          <label for="toolManufacturer" class="form-label mt-1">Tool Manufacturer</label>
+          <input type="text" class="form-control" id="toolManufacturer" name="toolManufacturer" [(ngModel)]="toolRequest.manufacturer" placeholder="Tool manufacturer">
+        </div>
+        <div class="col-12">
+          <label for="toolDescription" class="form-label mt-1">Tool Description</label>
+          <textarea class="form-control" id="toolDescription" name="toolDescription" [(ngModel)]="toolRequest.description" placeholder="Tool description"></textarea>
+        </div>
+        <div class="col-6">
+          <div class="form-check mt-1">
+            <input class="form-check-input" type="checkbox" id="toolShareable" name="toolShareable" [(ngModel)]="toolRequest.shareable">
+            <label class="form-check-label" for="toolShareable">
+              Make this tool shareable
+            </label>
+          </div>
+        </div>
+        <div class="col-12 d-flex justify-content-end gap-2">
+          <button type="submit" class="btn btn-outline-success" (click)="createNewTool()">
+            <i class="fas fa-save"></i>&nbsp;Save Tool
+          </button>
+          <a routerLink="/tools/my-tools" class="btn btn-outline-danger text-danger">
+            <i class="fas fa-times"></i>&nbsp;Cancel
+          </a>
+        </div>
+
+
+      </form>
+    </div>
+  </div>
+
+</div>

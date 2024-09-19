@@ -1,0 +1,33 @@
+<div class="card border-2" style="width: 18rem;"
+[class.border-success]="tool.shareable"
+[class.border-danger]="!tool.shareable"
+[class.border-warning]="tool.archived"
+>
+  <img height="200" [src]="toolImage" class="card-img-top" alt="...">
+  <div class="card-body overflow-y-auto">
+    <h5 class="card-title fs-6 text-nowrap fw-bold mb-1"><i class="fa-solid fa-toolbox"></i>&nbsp;{{tool.name}}</h5>
+    <h5 class="card-subtitle fs-6 text-secondary mb-1"><i class="fa-solid fa-user"></i>&nbsp;{{tool.ownerName}}</h5>
+    <h6 class="card-subtitle fs-6 text-secondary mb-1"><i class="fa-solid fa-tools"></i>&nbsp;{{tool.manufacturer}}</h6>
+    <hr>
+    <p class="card-text fs-6">{{tool.description}}</p>
+  </div>
+  <div class="card-footer d-flex gap-2 justify-content-between align-items-center">
+    <div class="d-flex gap-2">
+      <app-rating [rating]="tool.averageRating || 0"></app-rating>
+<!--      <span class="fw-bold" *ngIf="tool.averageRating || 0>0">-->
+<!--        {{tool.averageRating || 0}}-->
+<!--      </span>-->
+    </div>
+    <div class="d-flex gap-2" *ngIf="!manage">
+      <i (click)="onShowDetails()" class="fas fa-circle-info text-primary"></i>
+      <i (click)="onBorrow()" class="fas fa-list-check text-secondary"></i>
+      <i (click)="onWaitList()" class="fas fa-heart text-danger"></i>
+    </div>
+    <div class="d-flex gap-2" *ngIf="manage">
+      <i (click)="onEdit()" class="fas fa-edit text-success" ></i>
+      <i (click)="onShare()" class="fas fa-share-nodes text-primary"></i>
+      <i (click)="onArchive()" class="fas fa-archive text-danger"></i>
+    </div>
+
+  </div>
+</div>

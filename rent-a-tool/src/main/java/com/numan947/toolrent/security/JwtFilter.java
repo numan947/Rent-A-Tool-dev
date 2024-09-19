@@ -49,7 +49,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 var userDetails = userDetailsService.loadUserByUsername(email);
-                if (jwtService.isTokenValid(jwt, userDetails)) {
+                if (userDetails != null && jwtService.isTokenValid(jwt, userDetails)) {
                     // this token is used by Spring Security to check and update SecurityContextHolder for the user
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,

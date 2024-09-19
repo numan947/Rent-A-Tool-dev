@@ -1,0 +1,143 @@
+<h2>My Borrowed Tools</h2>
+<hr>
+<div class="d-flex flex-column col-8" *ngIf="selectedTool">
+  <h2>Return and review</h2>
+  <div class="d-flex flex-column col-12">
+    <div class="d-flex">
+      <div class="col-3">
+        <strong>Name</strong>
+      </div>
+      <div class="col-9">{{ selectedTool.name }}</div>
+    </div>
+    <div class="d-flex">
+      <div class="col-3">
+        <strong>Manufacturer</strong>
+      </div>
+      <div class="col-9">{{ selectedTool.manufacturer }}</div>
+    </div>
+    <div class="d-flex">
+      <div class="col-3">
+        <strong>Rating</strong>
+      </div>
+      <div class="col-9">{{ selectedTool.averageRating }}</div>
+    </div>
+  </div>
+  <hr>
+  <h4>Write a review</h4>
+  <div class="col-12">
+    <form class="row g-3">
+
+      <div class="d-flex gap-3">
+        <label for="reviewTitle" class="col-form-label">Title</label>
+        <input [(ngModel)]="reviewRequestDto.title" type="text" id="reviewTitle" name="Title" class="form-text form-control w-25" placeholder="Title">
+      </div>
+
+      <div class="d-flex gap-3">
+        <label for="rating" class="col-form-label">Rating</label>
+        <input [(ngModel)]="reviewRequestDto.rating" type="range" id="rating" name="rate" class="form-text w-25" min="0" max="10" step="0.5">
+        <app-rating [rating]="reviewRequestDto.rating||0"></app-rating>
+      </div>
+
+      <div class="d-flex gap-3">
+          <label for="reviewDescription" class="form-label mt-1">Review</label>
+          <textarea class="form-control" id="reviewDescription" name="reviewDescription" [(ngModel)]="reviewRequestDto.description" placeholder="Review this tool"></textarea>
+      </div>
+      <div class="d-flex justify-content-end gap-2 col-12">
+        <button (click)="returnThisTool(true)" type="submit" class="btn btn-outline-primary">
+          <i class="fas fa-save"></i>&nbsp;Rate and return
+        </button>
+        <button (click)="returnThisTool(false)" type="submit" class="btn btn-outline-success">
+          <i class="fas fa-paper-plane"></i>&nbsp;Just Return
+        </button>
+        <a routerLink="/tools/my-tools" class="btn btn-link text-danger">
+          <i class="fas fa-times"></i>&nbsp;Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="!selectedTool">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Manufacturer</th>
+      <th scope="col">Rating</th>
+      <th scope="col">Returned</th>
+      <th scope="col">Return Approved</th>
+      <th scope="col"><i class="d-flex justify-content-end fas fa-cogs"></i></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let tool of borrowedTools.content; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ tool.name }}</td>
+      <td>{{ tool.manufacturer }}</td>
+      <td><i class="fas fa-star text-warning"></i>{{ tool.averageRating }}</td>
+      <td>
+        <i *ngIf="tool.returned" class="fa-regular fa-circle-check text-primary"></i>
+        <i *ngIf="!tool.returned" class="fa-regular fa-circle-xmark text-danger"></i>
+      </td>
+      <td>
+        <i *ngIf="tool.returnApproved && tool.returned" class="fa-solid fa-circle-check text-success"></i>
+        <i *ngIf="!tool.returnApproved && tool.returned" class="fa-solid fa-circle-check text-warning"></i>
+      </td>
+      <td class="d-flex gap-2 justify-content-end">
+        <button class="btn btn-primary" (click)="startReturnTool(tool)" *ngIf="!tool.returned">
+          <i class="fas fa-undo"></i>&nbsp;Return
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-center mt-3">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="javascript:void(0)" aria-label="First" (click)="goToFirstPage()"
+             [class.disabled]="page === 0"
+          >
+            <i class="fa-solid fa-angles-left"></i>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="javascript:void(0)" aria-label="Previous" [class.disabled]="page === 0"
+             (click)="goToPreviousPage()">
+            <i class="fa-solid fa-angle-left"></i>
+          </a>
+        </li>
+        <li class="page-item"
+            *ngFor="let _ of [].constructor(borrowedTools.totalPages); let pageNumber = index"
+        >
+          <a
+            class="page-link"
+            href="javascript:void(0)"
+            aria-label="Nth"
+            (click)="goToPage(pageNumber)"
+            [class.active]="pageNumber === page"
+          >
+            {{ pageNumber + 1 }}
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="javascript:void(0)" aria-label="Next" (click)="goToNextPage()"
+             [class.disabled]="isLastPage"
+          >
+            <i class="fa-solid fa-angle-right"></i>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="javascript:void(0)" aria-label="Last" (click)="goToLastPage()"
+             [class.disabled]="isLastPage"
+          >
+            <i class="fa-solid fa-angles-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+</div>

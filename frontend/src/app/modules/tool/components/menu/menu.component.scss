@@ -5,8 +5,9 @@ li>a{
     text-decoration: underline;
   }
   &.active{
-    background-color: #4f81d0;
+    color: #4f81d0;
     border-radius: 5px;
     text-decoration: underline;
+    font-weight: bold;
   }
 }

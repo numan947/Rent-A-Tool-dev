@@ -12,14 +12,14 @@ public record ToolRequestDTO(
         @NotBlank(message = "100")
         String name,
 
-        @NotNull(message = "100")
-        @NotEmpty(message = "100")
-        @NotBlank(message = "100")
+        @NotNull(message = "101")
+        @NotEmpty(message = "101")
+        @NotBlank(message = "101")
         String description,
 
-        @NotNull(message = "100")
-        @NotEmpty(message = "100")
-        @NotBlank(message = "100")
+        @NotNull(message = "102")
+        @NotEmpty(message = "102")
+        @NotBlank(message = "102")
         String manufacturer,
 
         boolean shareable

@@ -119,7 +119,7 @@ public class ToolService {
         Tool tool = toolRepository.findById(toolId)
                 .orElseThrow(() -> new EntityNotFoundException("No tool found with id: " + toolId));
         User user = (User) connectedUser.getPrincipal();
-        if (Objects.equals(tool.getOwner().getId(), user.getId())) {
+        if (!Objects.equals(tool.getOwner().getId(), user.getId())) {
             throw new OperationNotPermittedException("You are not the owner of this tool");
         }
         tool.setShareable(!tool.isShareable());

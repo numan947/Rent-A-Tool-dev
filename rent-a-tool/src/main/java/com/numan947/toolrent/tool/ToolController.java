@@ -37,6 +37,7 @@ public class ToolController {
             @RequestParam(value = "size", defaultValue = "10", required = false) int size,
             Authentication connectedUser
     ) {
+        System.out.println("Connected User: " + connectedUser);
         return ResponseEntity.ok(toolService.findAllTools(page, size, connectedUser));
     }
 
