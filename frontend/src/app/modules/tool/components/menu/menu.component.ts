@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Component({
   selector: 'app-menu',
@@ -6,7 +7,9 @@ import {Component, OnInit} from '@angular/core';
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent implements OnInit{
+  userName: string = '';
   ngOnInit(): void {
+    this.getUserName();
     const linkColor = document.querySelectorAll('.nav-link');
     linkColor.forEach(
       link=>{
@@ -29,6 +32,11 @@ export class MenuComponent implements OnInit{
   }
 
   logout() {
-    // logout logic
+    localStorage.removeItem('token');
+    window.location.reload();
+  }
+
+  private getUserName() {
+    // TODO: get user name from token
   }
 }
