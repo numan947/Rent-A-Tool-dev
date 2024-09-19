@@ -15,10 +15,10 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   mail:
-    host: localhost
-    port: 1025
-    username: user
-    password: password
+    host: smtp.gmail.com
+    port: 465
+    username: user@gmail.com
+    password: gmailpassword
     properties:
       mail:
         smtp:

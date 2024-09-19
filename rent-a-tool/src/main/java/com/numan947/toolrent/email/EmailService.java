@@ -31,7 +31,7 @@ public class EmailService {
             String activationCode,
             String subject
     ) throws MessagingException {
-        String templateName = emailTemplate == null ? "confirm_email" : emailTemplate.name();
+        String templateName = emailTemplate == null ? "confirm_email" : emailTemplate.getName();
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         var helper = new MimeMessageHelper(mimeMessage, MULTIPART_MODE_MIXED, UTF_8.name());

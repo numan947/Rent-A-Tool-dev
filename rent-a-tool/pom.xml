@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.numan947</groupId>
 	<artifactId>rent-a-tool</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>rent-a-tool-api</name>
 	<description>The backend of a full-stack application that allows users to manage their tool collections and engage with a community of DIY enthusiasts and professionals.</description>
 	<url/>
