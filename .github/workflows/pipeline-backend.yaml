@@ -30,6 +30,7 @@ jobs:
       - name: Compile project
         run: | 
           cd rent-a-tool
+          chmod +x mvnw
           ./mvnw clean compile
 
   unit-tests:
@@ -49,4 +50,5 @@ jobs:
         - name: Run unit tests
           run: |
             cd rent-a-tool
+            chmod +x mvnw
             ./mvnw clean test
