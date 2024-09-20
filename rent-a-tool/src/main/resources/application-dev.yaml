@@ -22,16 +22,12 @@ spring:
     properties:
       mail:
         smtp:
-          trust: "*"
-        auth: true
-        ssl:
-          enable: true
-          trust: "*"
-        starttls:
-          enable: true
-        connectiontimeout: 5000
-        timeout: 5000
-        writetimeout: 5000
+          auth: true
+          ssl:
+            enable: true
+            trust: "*"
+          starttls:
+            enable: true
 
 application:
   file:
