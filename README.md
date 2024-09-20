@@ -19,10 +19,11 @@ Bootstrap CSS for styling.
 - **Tool Return Approval**: Admins or owners can approve tool returns.
 
 ## How to Run
-1. Clone the repository.
-2. Run docker-compose up in the root directory.
-3. Access the frontend at http://localhost:4200.
-4. Access the backend at http://localhost:9999.
+1. Add a .env file in the root directory with the environment variables specified in the env.template file.
+2. Clone the repository.
+3. Run docker-compose up in the root directory.
+4. Access the frontend at http://localhost:4200.
+5. Access the backend at http://localhost:9999.
 
 ## Deploying to Web
 1. Update backend cors policy to allow frontend URL.
