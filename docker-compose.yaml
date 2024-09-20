@@ -27,9 +27,13 @@ services:
 
   rat-api:
     container_name: rat-api
-    image: rat/backend:1.0.0
+    image: numan947/rent-a-tool-backend
     ports:
       - "9999:9999"
+    environment:
+      - EMAIL_HOST_NAME=${GMAIL_HOST}
+      - EMAIL_USER_NAME=${GMAIL_USER}
+      - EMAIL_PASSWORD=${GMAIL_PASSWORD}
     networks:
         - spring-network
     depends_on:
@@ -37,7 +41,7 @@ services:
 
   rat-web:
     container_name: rat-web
-    image: rat/frontend:1.0.0
+    image: numan947/rent-a-tool-frontend
     ports:
       - "4200:80"
     networks:
