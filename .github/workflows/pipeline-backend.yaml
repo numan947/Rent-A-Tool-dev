@@ -92,6 +92,6 @@ jobs:
           platforms: linux/amd64
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-tool-backend:${{ steps.extract_version.outputs.VERSION }},${{ secrets.DOCKERHUB_USERNAME }}/rent-a-tool-backend:latest
           build-args: |
-            PROFILE=dev
+            PROFILE=prod
             APP_VERSION=${{ steps.extract_version.outputs.VERSION }}
         

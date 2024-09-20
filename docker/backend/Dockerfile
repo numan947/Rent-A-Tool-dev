@@ -9,7 +9,7 @@ RUN mvn clean package -DskipTests
 
 # Runtime stage
 FROM amazoncorretto:22.0.2-alpine3.20
-ARG PROFILE=dev
+ARG PROFILE=prod
 ARG APP_VERSION=1.0.0
 
 WORKDIR /app
