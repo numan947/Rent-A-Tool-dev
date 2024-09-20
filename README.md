@@ -18,3 +18,15 @@ Bootstrap CSS for styling.
 - **Tool Returning**: Users can return borrowed tools.
 - **Tool Return Approval**: Admins or owners can approve tool returns.
 
+## How to Run
+1. Clone the repository.
+2. Run docker-compose up in the root directory.
+3. Access the frontend at http://localhost:4200.
+4. Access the backend at http://localhost:9999.
+
+## Deploying to Web
+1. Update backend cors policy to allow frontend URL.
+2. Deploy backend to a cloud service.
+3. Update rootURL in api-configuration.ts in the frontend/src/app/services directory.
+4. Also update nginix.conf accordingly.
+5. Deploy frontend to a cloud service.
