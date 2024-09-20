@@ -15,10 +15,10 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   mail:
-    host: smtp.gmail.com
+    host: ${EMAIL_HOST_NAME}
     port: 465
-    username: user@gmail.com
-    password: gmailpassword
+    username: ${EMAIL_USER_NAME}
+    password: ${EMAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -45,5 +45,7 @@ application:
         activation-code-expiration: 15 # in minutes
         activation-code-characters: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
         activation-code-subject: Activate your account
+    cors:
+      origins: http://localhost:4200,http://localhost:8080
 server:
   port: 9999

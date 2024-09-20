@@ -1,0 +1,52 @@
+name: Backend Pipeline
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'rent-a-tool/**'
+      - 'docker/backend/**'
+      - 'docker-compose.yaml'
+      - '.github/workflows/pipeline-backend.yaml'
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    name: Compile project
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+
+      - name: Compile project
+        run: |
+          cd rent-a-tool
+          ./mvnw clean compile
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    name: Run unit tests
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+
+        - name: Set up JDK
+          uses: actions/setup-java@v4
+          with:
+            java-version: '21'
+            distribution: 'corretto'
+        - name: Run unit tests
+          run: |
+            cd rent-a-tool
+            ./mvnw clean test

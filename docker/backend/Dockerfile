@@ -26,4 +26,8 @@ ENV MAILDEV_URL=localhost
 ENV ACTIVE_PROFILE=${PROFILE}
 ENV JAR_VERSION=${APP_VERSION}
 
+ENV EMAIL_HOST_NAME=missing_host_name
+ENV EMAIL_USER_NAME=missing_host_name
+ENV EMAIL_PASSWORD=missing_host_name
+
 CMD java -jar -Dspring.profiles.active=${ACTIVE_PROFILE} -Dspring.datasource.url=${DB_URL}  rent-a-tool-${JAR_VERSION}.jar

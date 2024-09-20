@@ -3,6 +3,7 @@ package com.numan947.toolrent.config;
 import com.numan947.toolrent.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -26,6 +27,9 @@ import static org.springframework.http.HttpHeaders.*;
 @Configuration
 @RequiredArgsConstructor
 public class BeansConfig {
+    @Value("${application.security.cors.origins:http://localhost:9999}")
+    private List<String> allowedOrigins;
+
     private final UserDetailsService userDetailsService;
     @Bean
     public AuthenticationProvider authProvider() {
@@ -54,8 +58,8 @@ public class BeansConfig {
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("http://localhost:4200", "http://localhost:8080"));
+//        config.setAllowCredentials(true);
+        config.setAllowedOrigins(allowedOrigins);
         config.setAllowedHeaders(List.of(CONTENT_TYPE, ORIGIN, ACCEPT, AUTHORIZATION));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
         source.registerCorsConfiguration("/**", config);
