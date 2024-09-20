@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {JwtHelperService} from "@auth0/angular-jwt";
+import {KeycloakService} from "../../../../services/keycloak/keycloak.service";
 
 @Component({
   selector: 'app-menu',
@@ -7,6 +8,10 @@ import {JwtHelperService} from "@auth0/angular-jwt";
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent implements OnInit{
+  constructor(
+    private keycloakService: KeycloakService,
+  ) {
+  }
   userName: string = '';
   ngOnInit(): void {
     this.getUserName();
@@ -32,8 +37,9 @@ export class MenuComponent implements OnInit{
   }
 
   logout() {
-    localStorage.removeItem('token');
-    window.location.reload();
+    this.keycloakService.logout().then(r => {
+      window.location.reload();
+    });
   }
 
   private getUserName() {
