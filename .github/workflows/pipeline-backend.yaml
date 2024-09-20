@@ -3,7 +3,7 @@ name: Backend Pipeline
 on:
   push:
     branches:
-      - main
+      - cicdpipeline
     paths:
       - 'rent-a-tool/**'
       - 'docker/backend/**'
@@ -28,7 +28,7 @@ jobs:
           distribution: 'corretto'
 
       - name: Compile project
-        run: |
+        run: | 
           cd rent-a-tool
           ./mvnw clean compile
 
