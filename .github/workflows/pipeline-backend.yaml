@@ -3,7 +3,7 @@ name: Backend Pipeline
 on:
   push:
     branches:
-      - cicdpipeline
+      - master
     paths:
       - 'rent-a-tool/**'
       - 'docker/backend/**'
@@ -32,26 +32,6 @@ jobs:
           cd rent-a-tool
           chmod +x mvnw
           ./mvnw clean compile
-
-#  unit-tests:
-#    runs-on: ubuntu-latest
-#    name: Run unit tests
-#    steps:
-#        - name: Checkout
-#          uses: actions/checkout@v4
-#          with:
-#            fetch-depth: 0
-#
-#        - name: Set up JDK
-#          uses: actions/setup-java@v4
-#          with:
-#            java-version: '21'
-#            distribution: 'corretto'
-#        - name: Run unit tests
-#          run: |
-#            cd rent-a-tool
-#            chmod +x mvnw
-#            ./mvnw clean test
 
   build:
     runs-on: self-hosted

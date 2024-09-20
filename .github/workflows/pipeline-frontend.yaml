@@ -1,0 +1,40 @@
+name: Rent-a-Tool Frontend Pipeline
+on:
+    push:
+        branches:
+        - master
+        paths:
+        - 'frontend/**'
+        - 'docker/frontend/**'
+        - '.github/workflows/pipeline-frontend.yaml'
+jobs:
+  build-image:
+    name: Build Docker image for angular frontend
+    runs-on: self-hosted
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+
+    - name: Extract project version
+      id: extract_version
+      run: |
+        cd frontend
+        echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+
+    - name: Login to DockerHub
+      run: docker/login-action@v3
+      with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and Push to DockerHub
+      run: docker/build-push-action@v5
+      with:
+          context: frontend
+          file: ./docker/frontend/Dockerfile
+          push: true
+          platform: linux/amd64
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-tool-frontend:${{ steps.extract_version.outputs.VERSION }}, ${{ secrets.DOCKERHUB_USERNAME }}/rent-a-tool-frontend:latest
