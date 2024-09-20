@@ -1,6 +1,5 @@
 name: Backend Pipeline
-env:
-  DOCKERHUB_USERNAME: "numan947"
+
 on:
   push:
     branches:
@@ -77,6 +76,8 @@ jobs:
           ./mvnw clean package -DskipTests
 
   build-docker-image:
+    env:
+      DOCKERHUB_USERNAME: "numan947"
     runs-on: self-hosted
     name: Build Docker image
     needs: [build]
