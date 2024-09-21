@@ -16,9 +16,9 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name="_roles")
-@EntityListeners(AuditingEntityListener.class)
+//@Entity
+//@Table(name="_roles")
+//@EntityListeners(AuditingEntityListener.class)
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

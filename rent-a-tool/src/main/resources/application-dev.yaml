@@ -28,23 +28,28 @@ spring:
 #            trust: "*"
           starttls:
             enable: true
-
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:9090/realms/rat-realm"
 application:
   file:
     uploads:
       photos-directory: ./uploads
   security:
-    jwt:
-      secret-key: 63FDD813AA2A9922746B3EA81DCC1ABCDEFFEDCBA99999FFFDDDEEFF9999FFDDABCDEF
-      expiration: 86400000
-    mailing:
-      frontend:
-        activation-url: http://localhost:4200/activate-account
-        activation-code-length: 6 # in characters
-        activation-code-expiration: 15 # in minutes
-        activation-code-characters: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
-        activation-code-subject: Activate your account
     cors:
       origins: http://localhost:4200,http://localhost:8080
+#  security:
+#    jwt:
+#      secret-key: 63FDD813AA2A9922746B3EA81DCC1ABCDEFFEDCBA99999FFFDDDEEFF9999FFDDABCDEF
+#      expiration: 86400000
+#    mailing:
+#      frontend:
+#        activation-url: http://localhost:4200/activate-account
+#        activation-code-length: 6 # in characters
+#        activation-code-expiration: 15 # in minutes
+#        activation-code-characters: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+#        activation-code-subject: Activate your account
 server:
   port: 9999

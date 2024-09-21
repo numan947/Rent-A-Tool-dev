@@ -17,7 +17,7 @@ public class ReviewMapper {
                 .build();
     }
 
-    public ReviewResponseDTO ReviewResponseDTO(ToolReview review, Long userId) {
+    public ReviewResponseDTO ReviewResponseDTO(ToolReview review, String userId) {
         return new ReviewResponseDTO(
                 review.getId(),
                 review.getTitle(),

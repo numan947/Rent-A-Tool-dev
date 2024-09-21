@@ -15,7 +15,7 @@ public interface ToolRepository extends JpaRepository<Tool, Long>, JpaSpecificat
         AND
         tool.shareable = true
         AND
-        tool.owner.id != :userId
+        tool.createdBy != :userId
     """)
-    Page<Tool> findAllValidDisplayableTools(Pageable pageable, Long userId);
+    Page<Tool> findAllValidDisplayableTools(Pageable pageable, String userId);
 }

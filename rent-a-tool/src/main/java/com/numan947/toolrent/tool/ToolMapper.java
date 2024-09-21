@@ -30,7 +30,7 @@ public class ToolMapper {
                 tool.isArchived(),
                 FileUtils.readFileFromPath(tool.getPhoto()),
                 tool.getAverageRating(),
-                tool.getOwner().getFullName()
+                tool.getCreatedBy()
         );
     }
 

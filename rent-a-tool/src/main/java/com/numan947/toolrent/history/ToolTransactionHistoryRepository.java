@@ -13,36 +13,36 @@ public interface ToolTransactionHistoryRepository extends JpaRepository<ToolTran
 
     @Query("""
             SELECT t FROM ToolTransactionHistory t
-            WHERE t.user.id = :userId
+            WHERE t.userId = :userId
             """)
-    Page<ToolTransactionHistory> findAllBorrowedTools(Long userId, Pageable pageable);
+    Page<ToolTransactionHistory> findAllBorrowedTools(String userId, Pageable pageable);
 
     @Query("""
             SELECT t FROM ToolTransactionHistory t
-            WHERE t.tool.owner.id = :userId
+            WHERE t.tool.createdBy = :userId
             """)
-    Page<ToolTransactionHistory> findAllReturnedTools(Long userId, Pageable pageable);
+    Page<ToolTransactionHistory> findAllReturnedTools(String userId, Pageable pageable);
 
     @Query("""
             SELECT
             (COUNT(*)>0) AS isAlreadyBorrowed
             FROM ToolTransactionHistory t
             WHERE t.tool.id = :toolId
-            AND t.user.id = :userId
+            AND t.userId = :userId
             AND t.returnApproved = false
             """)
-    boolean isAlreadyBorrowedByUser(Long toolId, Long userId);
+    boolean isAlreadyBorrowedByUser(Long toolId, String userId);
 
     @Query("""
             SELECT
             t
             FROM ToolTransactionHistory t
-            WHERE t.user.id = :userId
+            WHERE t.userId = :userId
             AND t.tool.id = :toolId
             AND t.returned = false
             AND t.returnApproved = false
             """)
-    Optional<ToolTransactionHistory> findByToolIdAndUserId(Long toolId, Long userId);
+    Optional<ToolTransactionHistory> findByToolIdAndUserId(Long toolId, String userId);
 
 
     @Query("""
@@ -54,5 +54,5 @@ public interface ToolTransactionHistoryRepository extends JpaRepository<ToolTran
             AND t.returned = true
             AND t.returnApproved = false
             """)
-    Optional<ToolTransactionHistory> findByToolIdAndOwnerId(Long toolId, Long ownerId);
+    Optional<ToolTransactionHistory> findByToolIdAndOwnerId(Long toolId, String ownerId);
 }

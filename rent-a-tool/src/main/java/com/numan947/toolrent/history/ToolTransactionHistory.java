@@ -3,10 +3,7 @@ package com.numan947.toolrent.history;
 import com.numan947.toolrent.common.BaseEntity;
 import com.numan947.toolrent.tool.Tool;
 import com.numan947.toolrent.user.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,9 +21,12 @@ public class ToolTransactionHistory extends BaseEntity {
     boolean returned;
     boolean returnApproved;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
+
+    @Column(name = "user_id")
+    private String userId;
 
     @ManyToOne
     @JoinColumn(name = "tool_id")

@@ -19,8 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity(securedEnabled = true) // for role based security
 public class SecurityConfig {
 
-    private final AuthenticationProvider authProvider;
-    private final JwtFilter jwtAuthFilter;
+//    private final AuthenticationProvider authProvider;
+//    private final JwtFilter jwtAuthFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSec) throws Exception {
@@ -45,9 +45,7 @@ public class SecurityConfig {
                             .anyRequest()
                             .authenticated()
                 )
-                .sessionManagement(ss -> ss.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .oauth2ResourceServer(auth->auth.jwt(token->token.jwtAuthenticationConverter(new KeyCloakJwtAuthConverter())));
 
         return httpSec.build();
     }

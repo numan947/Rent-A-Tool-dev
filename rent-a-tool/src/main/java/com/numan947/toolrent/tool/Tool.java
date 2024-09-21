@@ -29,9 +29,9 @@ public class Tool extends BaseEntity {
     private boolean shareable;
     private boolean archived;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
+//    @ManyToOne
+//    @JoinColumn(name = "owner_id")
+//    private User owner;
 
     @OneToMany(mappedBy = "tool")
     List<ToolReview>reviews;

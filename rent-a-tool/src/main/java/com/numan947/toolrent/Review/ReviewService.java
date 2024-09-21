@@ -30,11 +30,11 @@ public class ReviewService {
     public Long saveReview(ToolReviewRequest request, Authentication connectedUser) {
         Tool tool = toolRepository.findById(request.toolId())
                 .orElseThrow(() -> new EntityNotFoundException("Tool with id " + request.toolId() + " not found"));
-        User user = (User) connectedUser.getPrincipal();
+//        User user = (User) connectedUser.getPrincipal();
         if (!tool.isShareable() || tool.isArchived()) {
             throw new OperationNotPermittedException("You cannot review this tool");
         }
-        if (Objects.equals(tool.getOwner().getId(), user.getId())) {
+        if (Objects.equals(tool.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You cannot review your own tool");
         }
         ToolReview review = reviewMapper.toToolReview(request);
@@ -44,9 +44,9 @@ public class ReviewService {
 
     public PageResponseDTO<ReviewResponseDTO> findReviewsByTool(Long toolId, int page, int size, Authentication connectedUser) {
         Pageable pageable = PageRequest.of(page, size);
-        User user = (User) connectedUser.getPrincipal();
+//        User user = (User) connectedUser.getPrincipal();
         Page<ToolReview>reviews = reviewRepository.findAllByToolId(toolId, pageable);
-        List<ReviewResponseDTO> reviewResponseDTOS = reviews.map(review -> reviewMapper.ReviewResponseDTO(review, user.getId())).toList();
+        List<ReviewResponseDTO> reviewResponseDTOS = reviews.map(review -> reviewMapper.ReviewResponseDTO(review, connectedUser.getName())).toList();
         return new PageResponseDTO<>(
                 reviewResponseDTOS,
                 reviews.getNumber(),

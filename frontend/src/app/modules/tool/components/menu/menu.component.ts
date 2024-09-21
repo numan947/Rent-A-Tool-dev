@@ -36,10 +36,8 @@ export class MenuComponent implements OnInit{
     )
   }
 
-  logout() {
-    this.keycloakService.logout().then(r => {
-      window.location.reload();
-    });
+  async logout() {
+    await this.keycloakService.logout();
   }
 
   private getUserName() {

@@ -9,19 +9,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class AuthMapper {
-    private final PasswordEncoder passwordEncoder;
-    public User toUser(RegistrationRequestDTO registrationRequestDTO, Role userRole) {
-        return User.builder()
-                .firstname(registrationRequestDTO.firstname())
-                .lastname(registrationRequestDTO.lastname())
-                .email(registrationRequestDTO.email())
-                .password(passwordEncoder.encode(registrationRequestDTO.password()))
-                .enabled(false)
-                .locked(false)
-                .roles(List.of(userRole))
-                .build();
-    }
+//    private final PasswordEncoder passwordEncoder;
+//    public User toUser(RegistrationRequestDTO registrationRequestDTO, Role userRole) {
+//        return User.builder()
+//                .firstname(registrationRequestDTO.firstname())
+//                .lastname(registrationRequestDTO.lastname())
+//                .email(registrationRequestDTO.email())
+//                .password(passwordEncoder.encode(registrationRequestDTO.password()))
+//                .enabled(false)
+//                .locked(false)
+//                .roles(List.of(userRole))
+//                .build();
+//    }
 }

@@ -32,9 +32,9 @@ public class ToolService {
 
 
     public Long createTool(ToolRequestDTO toolRequest, Authentication connectedUser) {
-        User user = (User) connectedUser.getPrincipal();
+//        User user = (User) connectedUser.getPrincipal();
         Tool tool = toolMapper.toTool(toolRequest);
-        tool.setOwner(user);
+//        tool.setOwner(user);
         return toolRepository.save(tool).getId();
     }
 
@@ -45,10 +45,10 @@ public class ToolService {
     }
 
     public PageResponseDTO<ToolResponseDTO> findAllTools(int page, int size, Authentication connectedUser) {
-        User user = (User) connectedUser.getPrincipal();
+//        User user = (User) connectedUser.getPrincipal();
         //Paging implementation for the tools
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<Tool>tools = toolRepository.findAllValidDisplayableTools(pageable, user.getId());
+        Page<Tool>tools = toolRepository.findAllValidDisplayableTools(pageable, connectedUser.getName());
         List<ToolResponseDTO> content = tools.map(toolMapper::toToolResponseDTO).toList();
         return PageResponseDTO.<ToolResponseDTO>builder()
                 .content(content)
@@ -62,10 +62,10 @@ public class ToolService {
     }
 
     public PageResponseDTO<ToolResponseDTO> findAllToolsByOwner(int page, int size, Authentication connectedUser) {
-        User user = (User) connectedUser.getPrincipal();
+//        User user = (User) connectedUser.getPrincipal();
         //Paging implementation for the tools
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<Tool>tools = toolRepository.findAll(ToolSpec.withOwnerId(user.getId()), pageable); // example of using JpaSpecificationExecutor to filter tools by owner
+        Page<Tool>tools = toolRepository.findAll(ToolSpec.withOwnerId(connectedUser.getName()), pageable); // example of using JpaSpecificationExecutor to filter tools by owner
         List<ToolResponseDTO> content = tools.map(toolMapper::toToolResponseDTO).toList();
         return PageResponseDTO.<ToolResponseDTO>builder()
                 .content(content)
@@ -79,11 +79,11 @@ public class ToolService {
     }
 
     public PageResponseDTO<ToolTransactionDTO> findAllBorrowedToolsOfOwner(int page, int size, Authentication connectedUser) {
-        User user = (User) connectedUser.getPrincipal();
+//        User user = (User) connectedUser.getPrincipal();
         //Paging implementation for the tools
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
 
-        Page<ToolTransactionHistory>allBorrowedTools = toolTransactionHistoryRepository.findAllBorrowedTools(user.getId(), pageable);
+        Page<ToolTransactionHistory>allBorrowedTools = toolTransactionHistoryRepository.findAllBorrowedTools(connectedUser.getName(), pageable);
         List<ToolTransactionDTO> content = allBorrowedTools.map(toolMapper::toBorrowedToolResponseDTO).toList();
         return PageResponseDTO.<ToolTransactionDTO>builder()
                 .content(content)
@@ -97,11 +97,11 @@ public class ToolService {
     }
 
     public PageResponseDTO<ToolTransactionDTO> findAllReturnedToolsOfOwner(int page, int size, Authentication connectedUser) {
-        User user = (User) connectedUser.getPrincipal();
+//        User user = (User) connectedUser.getPrincipal();
         //Paging implementation for the tools
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
 
-        Page<ToolTransactionHistory>allBorrowedTools = toolTransactionHistoryRepository.findAllReturnedTools(user.getId(), pageable);
+        Page<ToolTransactionHistory>allBorrowedTools = toolTransactionHistoryRepository.findAllReturnedTools(connectedUser.getName(), pageable);
         List<ToolTransactionDTO> content = allBorrowedTools.map(toolMapper::toBorrowedToolResponseDTO).toList();
         return PageResponseDTO.<ToolTransactionDTO>builder()
                 .content(content)
@@ -118,8 +118,8 @@ public class ToolService {
     public Long updateToolShareableStatus(Long toolId, Authentication connectedUser) {
         Tool tool = toolRepository.findById(toolId)
                 .orElseThrow(() -> new EntityNotFoundException("No tool found with id: " + toolId));
-        User user = (User) connectedUser.getPrincipal();
-        if (!Objects.equals(tool.getOwner().getId(), user.getId())) {
+//        User user = (User) connectedUser.getPrincipal();
+        if (!Objects.equals(tool.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You are not the owner of this tool");
         }
         tool.setShareable(!tool.isShareable());
@@ -130,8 +130,8 @@ public class ToolService {
     public Long updateArchiveStatus(Long toolId, Authentication connectedUser) {
         Tool tool = toolRepository.findById(toolId)
                 .orElseThrow(() -> new EntityNotFoundException("No tool found with id: " + toolId));
-        User user = (User) connectedUser.getPrincipal();
-        if (!Objects.equals(tool.getOwner().getId(), user.getId())) {
+//        User user = (User) connectedUser.getPrincipal();
+        if (!Objects.equals(tool.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You are not the owner of this tool");
         }
         tool.setArchived(!tool.isArchived());
@@ -145,18 +145,18 @@ public class ToolService {
         if (!tool.isShareable() || tool.isArchived()) {
             throw new OperationNotPermittedException("This tool is not shareable");
         }
-        User user = (User) connectedUser.getPrincipal();
-        if (Objects.equals(tool.getOwner().getId(), user.getId())) {
+//        User user = (User) connectedUser.getPrincipal();
+        if (Objects.equals(tool.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You are the owner of this tool");
         }
-        final boolean isAlreadyBorrowed = toolTransactionHistoryRepository.isAlreadyBorrowedByUser(toolId, user.getId());
+        final boolean isAlreadyBorrowed = toolTransactionHistoryRepository.isAlreadyBorrowedByUser(toolId, connectedUser.getName());
         if (isAlreadyBorrowed) {
             throw new OperationNotPermittedException("You have already borrowed this tool");
         }
 
         ToolTransactionHistory toolTransactionHistory = ToolTransactionHistory.builder()
                 .tool(tool)
-                .user(user)
+                .userId(connectedUser.getName())
                 .returnApproved(false)
                 .returned(false)
                 .build();
@@ -169,11 +169,11 @@ public class ToolService {
         if (!tool.isShareable() || tool.isArchived()) {
             throw new OperationNotPermittedException("This tool is not shareable");
         }
-        User user = (User) connectedUser.getPrincipal();
-        if (Objects.equals(tool.getOwner().getId(), user.getId())) {
+//        User user = (User) connectedUser.getPrincipal();
+        if (Objects.equals(tool.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You are the owner of this tool");
         }
-        ToolTransactionHistory history = toolTransactionHistoryRepository.findByToolIdAndUserId(toolId, user.getId()).orElseThrow(
+        ToolTransactionHistory history = toolTransactionHistoryRepository.findByToolIdAndUserId(toolId, connectedUser.getName()).orElseThrow(
                 () -> new OperationNotPermittedException("You have not borrowed this tool")
         );
         history.setReturned(true);
@@ -183,11 +183,11 @@ public class ToolService {
     public Long approveReturnBorrowedTool(Long toolId, Authentication connectedUser) {
         Tool tool = toolRepository.findById(toolId)
                 .orElseThrow(() -> new EntityNotFoundException("No tool found with id: " + toolId));
-        User user = (User) connectedUser.getPrincipal();
-        if (!Objects.equals(tool.getOwner().getId(), user.getId())) {
+//        User user = (User) connectedUser.getPrincipal();
+        if (!Objects.equals(tool.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You are not the owner of this tool");
         }
-        ToolTransactionHistory history = toolTransactionHistoryRepository.findByToolIdAndOwnerId(toolId, user.getId()).orElseThrow(
+        ToolTransactionHistory history = toolTransactionHistoryRepository.findByToolIdAndOwnerId(toolId, connectedUser.getName()).orElseThrow(
                 () -> new OperationNotPermittedException("No borrowed tool marked returned found with id: " + toolId)
         );
         history.setReturnApproved(true);
@@ -197,11 +197,11 @@ public class ToolService {
     public void uploadPhoto(Long toolId, MultipartFile file, Authentication connectedUser) {
         Tool tool = toolRepository.findById(toolId)
                 .orElseThrow(() -> new EntityNotFoundException("No tool found with id: " + toolId));
-        User user = (User) connectedUser.getPrincipal();
-        if (!Objects.equals(tool.getOwner().getId(), user.getId())) {
+//        User user = (User) connectedUser.getPrincipal();
+        if (!Objects.equals(tool.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You are not the owner of this tool");
         }
-        var toolPhotoPath = fileStorageService.saveFile(file, tool.getId(), user.getId());
+        var toolPhotoPath = fileStorageService.saveFile(file, tool.getId(), connectedUser.getName());
         tool.setPhoto(toolPhotoPath);
         toolRepository.save(tool);
     }

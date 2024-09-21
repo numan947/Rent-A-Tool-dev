@@ -7,17 +7,22 @@ import {authGuard} from "./services/guard/auth.guard";
 
 const routes: Routes = [
   {
-    path: 'login',
-    component: LoginComponent
+    path: '',
+    redirectTo: 'tools',
+    pathMatch: 'full'
   },
-  {
-    path: 'register',
-    component: RegisterComponent
-  },
-  {
-    path: 'activate-account',
-    component: ActivateAccountComponent
-  },
+  // {
+  //   path: 'login',
+  //   component: LoginComponent
+  // },
+  // {
+  //   path: 'register',
+  //   component: RegisterComponent
+  // },
+  // {
+  //   path: 'activate-account',
+  //   component: ActivateAccountComponent
+  // },
   {
     path:'tools',
     loadChildren: () => import('./modules/tool/tool.module').then(m => m.ToolModule),

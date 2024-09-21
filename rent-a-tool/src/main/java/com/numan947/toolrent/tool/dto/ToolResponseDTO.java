@@ -9,6 +9,6 @@ public record ToolResponseDTO(
         boolean archived,
         byte[] photo,
         double averageRating,
-        String ownerName
+        String ownerId
 ) {
 }
